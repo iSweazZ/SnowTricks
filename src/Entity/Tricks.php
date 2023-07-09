@@ -12,10 +12,10 @@ class Tricks
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: false)]
+    private string $name;
 
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
@@ -37,8 +37,8 @@ class Tricks
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $category = null;
+    #[ORM\Column(type: 'string', nullable: false, enumType: TrickCategory::class)]
+    private TrickCategory $category;
 
     public function getId(): ?int
     {
@@ -117,12 +117,12 @@ class Tricks
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getCategory(): TrickCategory
     {
         return $this->category;
     }
 
-    public function setCategory(?string $category): static
+    public function setCategory(TrickCategory $category): self
     {
         $this->category = $category;
 

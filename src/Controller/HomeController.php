@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
+use App\Repository\TricksRepository;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', 'app_home', methods: ['GET'])]
-    public function index(): Response
+    #[Route('/ets', methods: ['GET'])]
+    public function index(TricksRepository $tricksRepository): Response
     {
+        $tricks = $tricksRepository->findAll();
+        dd($tricks);
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
