@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TricksRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +34,7 @@ class Tricks
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
+        $this->coments = new ArrayCollection();
     }
 
     #[ORM\Column(nullable: true)]
@@ -39,6 +42,15 @@ class Tricks
 
     #[ORM\Column(type: 'string', nullable: false, enumType: TrickCategory::class)]
     private TrickCategory $category;
+
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Coments::class, orphanRemoval: true)]
+    private Collection $coments;
+
+    #[ORM\Column(length: 255)]
+    private ?string $bg_img = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $text = null;
 
     public function getId(): ?int
     {
@@ -125,6 +137,60 @@ class Tricks
     public function setCategory(TrickCategory $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Coments>
+     */
+    public function getComents(): Collection
+    {
+        return $this->coments;
+    }
+
+    public function addComent(Coments $coment): static
+    {
+        if (!$this->coments->contains($coment)) {
+            $this->coments->add($coment);
+            $coment->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComent(Coments $coment): static
+    {
+        if ($this->coments->removeElement($coment)) {
+            // set the owning side to null (unless already changed)
+            if ($coment->getTrick() === $this) {
+                $coment->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBgImg(): ?string
+    {
+        return $this->bg_img;
+    }
+
+    public function setBgImg(string $bg_img): static
+    {
+        $this->bg_img = $bg_img;
+
+        return $this;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): static
+    {
+        $this->text = $text;
 
         return $this;
     }

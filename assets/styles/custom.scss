@@ -1,0 +1,46 @@
+.navbar{
+  position: fixed !important;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  z-index: 999 !important;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.devise{
+  position: absolute;
+  top: 70vh;
+  left: 5vw;
+  z-index: 10;
+  color: whitesmoke;
+}
+
+
+
+.content
+{
+  background-color: whitesmoke;
+  width: 100vw !important;
+  min-height: 100vh !important;
+}
+
+.content-with-header
+{
+  margin-top: 100vh !important;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#background{
+  position: fixed !important;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+}
