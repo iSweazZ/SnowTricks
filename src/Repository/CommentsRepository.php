@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Comments;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Exception;
 
 /**
  * @extends ServiceEntityRepository<Comments>
@@ -21,21 +22,34 @@ class CommentsRepository extends ServiceEntityRepository
         parent::__construct($registry, Comments::class);
     }
 
-    public function save(Comments $entity, bool $flush = false): void
+    public function save(Comments $entity): void
     {
-        $this->getEntityManager()->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
+        $entityManager = $this->getEntityManager();
+
+        try {
+            $entityManager->beginTransaction();
+            $entityManager->persist($entity);
+            $entityManager->flush();
+            $entityManager->commit();
+        }catch(Exception $e)
+        {
+            $entityManager->rollback();
         }
     }
 
     public function remove(Comments $entity, bool $flush = false): void
     {
-        $this->getEntityManager()->remove($entity);
+        $entityManager = $this->getEntityManager();
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
+        try {
+            $entityManager->beginTransaction();
+            $entityManager->remove($entity);
+            $entityManager->flush();
+            $entityManager->commit();
+        }catch(Exception $e)
+        {
+            $entityManager->rollback();
         }
     }
 
