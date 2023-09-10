@@ -17,9 +17,11 @@ class AppFixtures extends Fixture
             $trick = new Tricks();
             $trick->setName("test " . $i)
                 ->setPicture("testImg" . $i)
+                ->setBgImg("default.jpeg")
                 ->setDescription($faker->address())
                 ->setPublisher($faker->name())
-                ->setCategory(TrickCategory::toto);
+                ->setText($faker->text(50))
+                ->setCategory(TrickCategory::grabs);
 
             $manager->persist($trick);
         }
