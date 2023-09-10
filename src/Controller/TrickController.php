@@ -16,9 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrickController extends AbstractController
 {
 
+
+    #[Route('/trick/manage', name: 'app_trick_manager')]
+    public function manage(): Response
+    {
+        return $this->render('trick/manage.html.twig');
+    }
+
     #[Route('/trick/{id}', name: 'app_trick')]
     #[ParamConverter("trick", class:Tricks::class)]
-    public function index(Tricks $trick, Request $request): Response
+    public function show(Tricks $trick, Request $request): Response
     {
         $comment = new Comments();
         $form = $this->createForm(CommentType::class);
@@ -33,9 +40,4 @@ class TrickController extends AbstractController
         ]);
     }
 
-    #[Route('/trick/manage', name: 'app_trick_manager')]
-    public function manage(): Response
-    {
-        return $this->render('trick/manage.html.twig');
-    }
 }

@@ -11,12 +11,12 @@
                         <a class="nav-link active" aria-current="page" href="/">Accueil</a>
                     </li>
                 {% endif %}
-                {% if current_path != "welcome" %}
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Accueil</a>
-                    </li>
-                {% endif %}
                 {% if app.user %}
+                    {% if current_path != "app_trick_manager" %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ path('app_trick_manager')}}">Gérez vos articles</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="#">Mon compte</a>
                     </li>
