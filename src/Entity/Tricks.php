@@ -34,7 +34,7 @@ class Tricks
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
-        $this->coments = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     #[ORM\Column(nullable: true)]
@@ -43,8 +43,8 @@ class Tricks
     #[ORM\Column(type: 'string', nullable: false, enumType: TrickCategory::class)]
     private TrickCategory $category;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Coments::class, orphanRemoval: true)]
-    private Collection $coments;
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comments::class, orphanRemoval: true)]
+    private Collection $comments;
 
     #[ORM\Column(length: 255)]
     private ?string $bg_img = null;
@@ -142,29 +142,29 @@ class Tricks
     }
 
     /**
-     * @return Collection<int, Coments>
+     * @return Collection<int, Comments>
      */
-    public function getComents(): Collection
+    public function getComments(): Collection
     {
-        return $this->coments;
+        return $this->comments;
     }
 
-    public function addComent(Coments $coment): static
+    public function addComment(Comments $comment): static
     {
-        if (!$this->coments->contains($coment)) {
-            $this->coments->add($coment);
-            $coment->setTrick($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setTrick($this);
         }
 
         return $this;
     }
 
-    public function removeComent(Coments $coment): static
+    public function removeComment(Comments $comment): static
     {
-        if ($this->coments->removeElement($coment)) {
+        if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($coment->getTrick() === $this) {
-                $coment->setTrick(null);
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
             }
         }
 

@@ -31,12 +31,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Coments::class, orphanRemoval: true)]
-    private Collection $coments;
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comments::class, orphanRemoval: true)]
+    private Collection $comments;
 
     public function __construct()
     {
-        $this->coments = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,29 +110,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Coments>
+     * @return Collection<int, Comments>
      */
-    public function getComents(): Collection
+    public function getComments(): Collection
     {
-        return $this->coments;
+        return $this->comments;
     }
 
-    public function addComent(Coments $coment): static
+    public function addComment(Comments $comment): static
     {
-        if (!$this->coments->contains($coment)) {
-            $this->coments->add($coment);
-            $coment->setAuthor($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAuthor($this);
         }
 
         return $this;
     }
 
-    public function removeComent(Coments $coment): static
+    public function removeComment(Comments $comment): static
     {
-        if ($this->coments->removeElement($coment)) {
+        if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($coment->getAuthor() === $this) {
-                $coment->setAuthor(null);
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
             }
         }
 

@@ -2,19 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\ComentsRepository;
+use App\Repository\CommentsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ComentsRepository::class)]
-class Coments
+#[ORM\Entity(repositoryClass: CommentsRepository::class)]
+class Comments
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private int $id ;
 
-    #[ORM\ManyToOne(inversedBy: 'coments')]
+    #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private User $author;
 
@@ -24,7 +24,7 @@ class Coments
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'coments')]
+    #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private Tricks $trick;
 
