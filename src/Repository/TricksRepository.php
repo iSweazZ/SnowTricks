@@ -32,4 +32,16 @@ class TricksRepository extends ServiceEntityRepository
             $this->getEntityManager()->rollback();
         }
     }
+
+    public function remove(Tricks $trick): void
+    {
+        try {
+            $this->getEntityManager()->beginTransaction();
+            $this->getEntityManager()->remove($trick);
+            $this->getEntityManager()->flush();
+            $this->getEntityManager()->commit();
+        } catch (\Exception $e) {
+            $this->getEntityManager()->rollback();
+        }
+    }
 }

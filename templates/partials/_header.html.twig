@@ -14,7 +14,12 @@
                 {% if app.user %}
                     {% if current_path != "app_trick_manager" %}
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ path('app_trick_manager')}}">Gérez vos articles</a>
+                        <a class="nav-link" aria-current="page" href="{{ path('app_trick_manager')}}">Gérez votre compte</a>
+                    </li>
+                    {% endif %}
+                    {% if current_path != "app_trick_manager" %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ path('app_create_trick')}}">Ajouter une figure</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">

@@ -42,7 +42,7 @@ class CommentController extends AbstractController
     #[Route('/comment/{id}/delete', name: 'app_comment_delete')]
     public function delete(#[MapEntity(id:'id')] Comments $comment, Request $request, CommentsRepository $commentsRepository): RedirectResponse
     {
-        if($comment->getAuthor() === $this->getUser())
+        if($comment->getAuthor()->getId() === $this->getUser()->getId())
         {
             $commentsRepository->remove($comment);
         }

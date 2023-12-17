@@ -3,6 +3,8 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
+    {{ dump(session) }}
+
     <div>
         <h1 class="devise">Born to shred the slopes!</h1>
         <img id="background" src="{{ asset('images/main/header.jpg') }}" alt="Image de neige">
@@ -11,7 +13,7 @@
     <div id="welcome" class="content content-with-header">
         <div class="tricks-container grid-container">
             {% for trick in tricks %}
-                <a class="pointer item" data-item-id="{{ trick.id }}" href="{{ path('app_trick', {id: trick.id}) }}">
+                <a class="pointer " data-item-id="{{ trick.id }}" href="{{ path('app_trick', {id: trick.id}) }}">
                     {% include 'partials/_card.html.twig' with {trick:trick} only %}
                 </a>
             {% endfor %}

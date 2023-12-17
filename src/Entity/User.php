@@ -34,6 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comments::class, orphanRemoval: true)]
     private Collection $comments;
 
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();

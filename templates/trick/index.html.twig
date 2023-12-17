@@ -1,48 +1,56 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Hello TrickController!{% endblock %}
-
 {% block body %}
-    <div class="trick">
-        <img src="{{ '/images/tricks/' ~ trick.id ~ '_h.jpeg' }}" alt="">
-    </div>
-    <div class="trickBody">
-        <div class="article">
-            <p>{{ trick.text|nl2br }}</p>
-        </div>
+    {{ dump(trick.getBgImg()) }}
+    <div class="page-content trick-show">
+        <h1 class="text-center">{{ trick.name }}</h1>
+        <div class="trickBody">
+            <div class="article  w-50vw text-center">
+                <p>{{ trick.text|nl2br }}</p>
+            </div>
 
-        <div>
-            <p>article créé par {{ trick.publisher }}</p>
-        </div>
-    </div>
-    
-    <div class="commentary">
-        {% if app.user %}
-            <form action="{{ path('app_comment', {id: trick.id}) }}" method="post">
-                {{ form_start(form) }}
-                    <p>Entrez votre commentaire</p>
-                    {{ form_widget(form.text) }}
-                    {{ form_rest(form) }}
-                    <button type="submit">Enregistrer</button>
-                {{ form_end(form) }}
-            </form>
-        {% else %}
-            <p>Vous devez être connecter pour vous connecter</p>
-        {% endif %}
-
-        <div class="otherComments">
-            {% for comment in trick.comments %}
-                <div class="comment" style="border-style: solid; border-width: 2px; border-color: black; margin-bottom: 5px;">
-                    <p>{{ comment.author.email }}</p>
-                    <p>{{ comment.text|nl2br }}</p>
-                    {% if app.user.id is same as(comment.author.id)  %}
-                    <form action="{{ path('app_comment_delete', {id: comment.id}) }}" method="post">
+            <div class="d-flex-author">
+                <p>article créé par {{ trick.publisher.email }}</p>
+                {% if app.user %}
+                    <form action="{{ path('delete_trick', {id: trick.id}) }}" method="post">
                         <button type="submit">Supprimer</button>
                     </form>
-                    {% endif %}
-                </div>
+                    <form action="{{ path('edit_trick', {id: trick.id}) }}" method="post">
+                        <button type="submit">Modifier</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
 
-            {% endfor %}
+        <div class="commentary">
+            {% if app.user %}
+                <form action="{{ path('app_comment', {id: trick.id}) }}" method="post">
+                    {{ form_start(form) }}
+                        <p>Entrez votre commentaire</p>
+                        {{ form_widget(form.text) }}
+                        {{ form_rest(form) }}
+                        <button type="submit">Envoyer</button>
+                    {{ form_end(form) }}
+                </form>
+            {% else %}
+                <p class="must-connect">Vous devez être connecter pour vous connecter</p>
+            {% endif %}
+
+            <div class="otherComments">
+                {% for comment in trick.comments %}
+                    <div>
+                        <p class="commentAuthor" >{{ comment.author.email }}</p>
+                        <p>{{ comment.text|nl2br }}</p>
+                        {% if app.user and app.user.id is same as(comment.author.id)  %}
+                        <form action="{{ path('app_comment_delete', {id: comment.id}) }}" method="post">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                        {% endif %}
+                    </div>
+
+                {% endfor %}
+            </div>
         </div>
     </div>
 

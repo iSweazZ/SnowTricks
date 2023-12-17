@@ -1,16 +1,9 @@
 #welcome{
-    margin: 1em auto;
-    max-width: 800px ;
-    width: 95% ;
-    font: 18px/1.5 sans-serif ;
-    code {
-      background: #F5F5F5;
-      padding: 2px 6px;
-  }
-}
-
-body{
-  background-color: whitesmoke !important;
+  width: 75vw !important;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(0, 0, 0, 0.55);
+  border-radius: 10px;
 }
 
 .grid-container{
@@ -22,5 +15,6 @@ body{
   margin-right: auto;
   margin-left: auto;
   padding-top: 50px;
+  padding-right: 50px;
   width: 70vw;
 }

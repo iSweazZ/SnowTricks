@@ -3,8 +3,20 @@
 {% block title %}Hello TrickController!{% endblock %}
 
 {% block body %}
-    <div>
-        <p>Vos articles:</p>
+    <div class="page-content">
+        <p>Changez votre mot de passe:</p>
+        <form action="{{ path('app_change_password')}}" method="post">
+            {{ form_start(form) }}
+            <p>Votre ancien mot de passe</p>
+            {{ form_widget(form.currentPassword) }}
+            <p>Nouveau mot de passe</p>
+            {{ form_widget(form.NewPassword) }}
+            <p>Nouveau mot de passe</p>
+            {{ form_widget(form.Retype) }}
+            {{ form_rest(form) }}
+            <button type="submit">Enregistrer</button>
+            {{ form_end(form) }}
+        </form>
     </div>
 
 {% endblock %}

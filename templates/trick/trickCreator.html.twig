@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"  rel="stylesheet"/>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+{% endblock %}
+
+{% block title %}Hello TrickController!{% endblock %}
+
+{% block body %}
+    <div>
+        <img id="background" src="{{ asset('images/main/creator.png') }}" alt="Image de neige">
+    </div>
+    <div id="trickCreator" class="page-content">
+        <div class="container-creator">
+            {% if form is defined %}
+                <form action="{{ path('app_store_tricks')}}" method="post" enctype="multipart/form-data">
+                    {{ form_start(form) }}
+                    <p>Nom de la figure :</p>
+                    {{ form_widget(form.name) }}
+                    <p>Description :</p>
+                    {{ form_widget(form.description) }}
+                    <p>Catégorie :</p>
+                    {{ form_widget(form.category) }}
+                    <p>Texte :</p>
+                    {{ form_widget(form.text) }}
+                    <p>Image de fond :</p>
+                    {{ form_row(form.bg_img) }}
+                    <p>Image de présentation :</p>
+                    {{ form_row(form.picture) }}
+                    <p>Pièces jointes :</p>
+                    {{ form_widget(form.images) }}
+                    {{ form_rest(form) }}
+                    <button type="submit">Enregistrer</button>
+                    {{ form_end(form) }}
+                </form>
+            {% else %}
+                <form action="{{ path('app_store_tricks')}}" method="post" enctype="multipart/form-data">
+                    {{ form_start(trickForm) }}
+                    <p>Nom de la figure :</p>
+                    {{ form_widget(trickForm.name, {'value': trick.name}) }}
+                    <p>Description :</p>
+                    {{ form_widget(trickForm.description, {'value': trick.description}) }}
+                    <p>Catégorie :</p>
+                    {{ form_widget(trickForm.category) }}
+                    <p>Texte :</p>
+                    {{ form_widget(trickForm.text, {'value': trick.text}) }}
+                    <p>Image de fond :</p>
+                    {{ form_row(trickForm.bg_img, {'value': trick.getBgImg()}) }}
+                    <p>Image de présentation :</p>
+                    {{ form_row(trickForm.picture, {'value': trick.picture}) }}
+                    <p>Pièces jointes :</p>
+                    {{ form_widget(trickForm.images) }}
+                    {{ form_rest(trickForm) }}
+                    <button type="submit">Enregistrer</button>
+                    {{ form_end(trickForm) }}
+                </form>
+            {% endif %}
+        </div>
+
+    </div>
+    <script src="{{ asset('controllers/attachementsFiles.js') }}"></script>
+
+{% endblock %}

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Exception;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -26,10 +27,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function save(User $entity, bool $flush = false): void
     {
-        $this->getEntityManager()->persist($entity);
+        $entityManager = $this->getEntityManager();
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
+        try {
+            $entityManager->beginTransaction();
+            $entityManager->persist($entity);
+            $entityManager->flush();
+            $entityManager->commit();
+        }catch(Exception $e)
+        {
+            $entityManager->rollback();
         }
     }
 

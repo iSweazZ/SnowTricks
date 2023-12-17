@@ -1,0 +1,62 @@
+#trickCreator
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  .container-creator{
+    background-color: rgba(0,0,0, 0.55);
+    width: 60vw;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 70px;
+    border-radius: 5px;
+  }
+
+  input:not([type=file]), textarea, select{
+    background-color: rgba(0,0,0,0.55);
+    color: white;
+    border-radius: 5px;
+  }
+
+  #trick_description{
+    width: 40vw;
+  }
+
+  #trick_text{
+    height: 10vh;
+  }
+
+  label.required{
+      display: none;
+  }
+
+  textarea{
+    width: 50vw;
+  }
+
+  select{
+    text-align: center;
+  }
+
+  .filepond--root{
+    width: 40vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .filepond--credits{
+    display: none;
+  }
+
+  button{
+    border-style: solid;
+    border-color: #720101;
+    border-radius: 5px;
+    width: 200px;
+    height: 40px;
+  }
+
+}

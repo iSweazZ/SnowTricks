@@ -1,21 +1,19 @@
 version: '3'
+networks:
+  default:
+    driver: bridge
 
 services:
 ###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
+  mail:
+    image: maildev/maildev:2.1.0
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
-
-volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+      MAILDEV_SMTP_PORT: 1025
+      MAILDEV_WEB_PORT: 1080
+      MAILDEV_OUTGOING_USER: maileruser
+      MAILDEV_OUTGOING_PASS: mailerpassword
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    networks:
+      - default

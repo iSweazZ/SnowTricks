@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TricksRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -25,8 +26,9 @@ class Tricks
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $publisher = null;
+    #[ORM\ManyToOne(inversedBy: 'tricks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $publisher;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
@@ -35,6 +37,7 @@ class Tricks
     {
         $this->created_at = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
+        $this->attachements = new ArrayCollection();
     }
 
     #[ORM\Column(nullable: true)]
@@ -51,6 +54,9 @@ class Tricks
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
+
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Attachements::class)]
+    private Collection $attachements;
 
     public function getId(): ?int
     {
@@ -93,12 +99,12 @@ class Tricks
         return $this;
     }
 
-    public function getPublisher(): ?string
+    public function getPublisher(): User
     {
         return $this->publisher;
     }
 
-    public function setPublisher(string $publisher): static
+    public function setPublisher(User $publisher): static
     {
         $this->publisher = $publisher;
 
@@ -191,6 +197,36 @@ class Tricks
     public function setText(string $text): static
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Attachements>
+     */
+    public function getAttachements(): Collection
+    {
+        return $this->attachements;
+    }
+
+    public function addAttachement(Attachements $attachement): static
+    {
+        if (!$this->attachements->contains($attachement)) {
+            $this->attachements->add($attachement);
+            $attachement->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachement(Attachements $attachement): static
+    {
+        if ($this->attachements->removeElement($attachement)) {
+            // set the owning side to null (unless already changed)
+            if ($attachement->getTrick() === $this) {
+                $attachement->setTrick(null);
+            }
+        }
 
         return $this;
     }
