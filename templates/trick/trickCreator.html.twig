@@ -40,29 +40,66 @@
                     {{ form_end(form) }}
                 </form>
             {% else %}
-                <form action="{{ path('app_store_tricks')}}" method="post" enctype="multipart/form-data">
+                <form action="{{ path('save_edit_trick', {id: trick.id})}}" method="post" enctype="multipart/form-data">
                     {{ form_start(trickForm) }}
                     <p>Nom de la figure :</p>
-                    {{ form_widget(trickForm.name, {'value': trick.name}) }}
+                    {{ form_widget(trickForm.name) }}
                     <p>Description :</p>
-                    {{ form_widget(trickForm.description, {'value': trick.description}) }}
+                    {{ form_widget(trickForm.description) }}
                     <p>Catégorie :</p>
                     {{ form_widget(trickForm.category) }}
                     <p>Texte :</p>
-                    {{ form_widget(trickForm.text, {'value': trick.text}) }}
+                    {{ form_widget(trickForm.text) }}
                     <p>Image de fond :</p>
-                    {{ form_row(trickForm.bg_img, {'value': trick.getBgImg()}) }}
+                    <div class="attach pres_img-div" id="bg_img">
+                        <input type="checkbox" class="checkbox" id="bg" name="bg" checked hidden>
+                        <div id="cibg" class="container-img">
+                            <div class="trash">
+                                <img src="{{ asset("images/main/trash.svg") }}" alt="" onclick="bgRemover()">
+                            </div>
+                            <img class="pres-img" src="{{ asset("/images/tricks/"~trick.getBgImg()) }}" alt="">
+                        </div>
+                        {{ form_row(trickForm.edit_bg_img) }}
+                    </div>
+                    {{ form_row(trickForm.bg_img) }}
                     <p>Image de présentation :</p>
-                    {{ form_row(trickForm.picture, {'value': trick.picture}) }}
+                    <div class="attach pres_img-div">
+                        <input type="checkbox" class="checkbox" id="pres" name="pres" checked hidden>
+                        <div id="cipr" class="container-img">
+                            <div class="trash">
+                                <img src="{{ asset("images/main/trash.svg") }}" alt="" onclick="pictureRemover()">
+                            </div>
+                            <img class="pres-img" src="{{ asset("/images/tricks/"~trick.picture) }}" alt="">
+                        </div>
+                    </div>
+                    {{ form_row(trickForm.edit_picture) }}
+                    {{ form_row(trickForm.picture) }}
                     <p>Pièces jointes :</p>
+
                     {{ form_widget(trickForm.images) }}
+                    <div class="attachements">
+                        {% for attachement in trick.attachements.toArray()  %}
+                            <div class="attach" id="attach{{ attachement.id }}">
+                                <input type="checkbox" class="checkbox" id="att{{ attachement.id }}" name="check{{ attachement.id }}" checked hidden>
+                                <div id="ci{{ attachement.id }}" class="container-img">
+                                    <div class="trash">
+                                        <img src="{{ asset("images/main/trash.svg") }}" alt="" onclick="imageRemover('{{ attachement.id }}')">
+                                    </div>
+                                    <img src="{{ asset("/images/tricks/attachments/"~attachement.path) }}" alt="">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
                     {{ form_rest(trickForm) }}
+
+
                     <button type="submit">Enregistrer</button>
                     {{ form_end(trickForm) }}
                 </form>
             {% endif %}
         </div>
-
     </div>
     <script src="{{ asset('controllers/attachementsFiles.js') }}"></script>
 

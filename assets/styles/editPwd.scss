@@ -1,0 +1,40 @@
+#edit-pwd{
+  background-color: rgba(0,0,0,0.2);
+  backdrop-filter: blur(7px);
+  border-radius: 10px;
+  -webkit-backdrop-filter: blur(7px);
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  width: 35vw;
+  height: 50vh;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+
+  p:not(.in-form){
+    text-decoration: underline;
+  }
+
+  input[type="password"]{
+    box-sizing: border-box;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+    width: 25vw;
+  }
+
+  button{
+    margin-top: 50px;
+    border-style: none;
+    border-radius: 5px;
+  }
+
+}

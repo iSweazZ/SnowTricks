@@ -3,17 +3,21 @@
 {% block title %}Hello TrickController!{% endblock %}
 
 {% block body %}
-    <div class="page-content">
+    <div>
+        <img id="background" src="{{ asset('images/main/edit-pwd.jpeg') }}" alt="Image de neige">
+    </div>
+    <div id="edit-pwd" class="page-content">
         <p>Changez votre mot de passe:</p>
         <form action="{{ path('app_change_password')}}" method="post">
             {{ form_start(form) }}
-            <p>Votre ancien mot de passe</p>
+            <p class="in-form">Votre ancien mot de passe</p>
             {{ form_widget(form.currentPassword) }}
-            <p>Nouveau mot de passe</p>
+            <p class="in-form">Nouveau mot de passe</p>
             {{ form_widget(form.NewPassword) }}
-            <p>Nouveau mot de passe</p>
+            <p class="in-form">Nouveau mot de passe</p>
             {{ form_widget(form.Retype) }}
             {{ form_rest(form) }}
+            <br>
             <button type="submit">Enregistrer</button>
             {{ form_end(form) }}
         </form>

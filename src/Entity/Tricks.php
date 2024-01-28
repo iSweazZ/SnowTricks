@@ -55,7 +55,7 @@ class Tricks
     #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Attachements::class)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Attachements::class, cascade: ['PERSIST'])]
     private Collection $attachements;
 
     public function getId(): ?int

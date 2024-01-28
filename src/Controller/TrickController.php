@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Attachements;
 use App\Entity\Comments;
 use App\Entity\Tricks;
 use App\Form\ChangePasswordType;
 use App\Form\CommentType;
+use App\Form\EditTrickType;
 use App\Form\TrickType;
+use App\Repository\AttachementsRepository;
 use App\Repository\TricksRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,25 +47,44 @@ class TrickController extends AbstractController
         ]);
     }
 
+    #[Route('/tricks/create', name: 'app_edit_tricks')]
+    public function storjdfgjgfse(): Response
+    {
+        $form = $this->createForm(TrickType::class);
+        return $this->render('trick/trickCreator.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
     #[Route('/trick/{id}/edit', name: 'edit_trick')]
     #[ParamConverter("trick", class:Tricks::class)]
     public function edit(Tricks $trick): Response
     {
-        $form = $this->createForm(TrickType::class);
+        $form = $this->createForm(EditTrickType::class, $trick);
         return $this->render('trick/trickCreator.html.twig', [
             'trickForm' => $form->createView(),
             'trick' => $trick
         ]);
     }
 
+    #[Route('/trick/{id}/save', name: 'save_edit_trick')]
+    #[ParamConverter("trick", class:Tricks::class)]
+    public function saveEdit(Tricks $trick, Request $request, EditTrickType $editTrickType): Response
+    {
+        //$form = $this->createForm(EditTrickType::class, $trick);
+        dd($trick);
+        //$trick->setName()
+    }
+
     #[Route('/tricks/make', name: 'app_store_tricks')]
-    public function make(Request $request, TricksRepository $tricksRepository): Response
+    public function make(Request $request, TricksRepository $tricksRepository, AttachementsRepository $attachementsRepository): Response
     {
         $trick = new Tricks();
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
             $fileDir = $_SERVER['DOCUMENT_ROOT'] . 'images\tricks';
+
             $picture = $form->get("picture")->getData();
 
             $pictureName = md5(uniqid()) . "." . $picture->guessExtension();
@@ -71,10 +93,22 @@ class TrickController extends AbstractController
             $bgImg = $form->get("bg_img")->getData();
             $bgImgName = md5(uniqid()) . "." . $bgImg->guessExtension();
             $bgImg->move($fileDir, $bgImgName);
-            $trick->setPicture($bgImgName);
+            $trick->setPicture($pictureName);
             $trick->setBgImg($bgImgName);
             $trick->setPublisher($this->getUser());
+            //dd($trick->getId());
+            foreach ($form->get("images")->getData() as $image)
+            {
+                $imageName = md5(uniqid()) . "." . $image->guessExtension();
+                $image->move($fileDir . '\attachments', $imageName);
+                $attachment = new Attachements();
+                $attachment->setTrick($trick);
+                $attachment->setPath($imageName);
+                $attachment->setType("img");
+                $trick->addAttachement($attachment);
+            }
             $tricksRepository->save($trick);
+
         }
         else
         {

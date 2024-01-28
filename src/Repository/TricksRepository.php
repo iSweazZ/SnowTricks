@@ -30,6 +30,7 @@ class TricksRepository extends ServiceEntityRepository
             $this->getEntityManager()->commit();
         } catch (\Exception $e) {
             $this->getEntityManager()->rollback();
+            dd($e);
         }
     }
 
