@@ -33,4 +33,16 @@ class AttachementsRepository extends ServiceEntityRepository
             $this->getEntityManager()->rollback();
         }
     }
+
+    public function remove(Attachements $attachment): void
+    {
+        try {
+            $this->getEntityManager()->beginTransaction();
+            $this->getEntityManager()->remove($attachment);
+            $this->getEntityManager()->flush();
+            $this->getEntityManager()->commit();
+        } catch (\Exception $e) {
+            $this->getEntityManager()->rollback();
+        }
+    }
 }

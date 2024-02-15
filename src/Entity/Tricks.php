@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\AttachementsRepository;
 use App\Repository\TricksRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TricksRepository::class)]
 class Tricks
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -224,7 +226,7 @@ class Tricks
         if ($this->attachements->removeElement($attachement)) {
             // set the owning side to null (unless already changed)
             if ($attachement->getTrick() === $this) {
-                $attachement->setTrick(null);
+                $this->attachementsRepository->remove($attachement);
             }
         }
 

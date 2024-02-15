@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Filesystem\Filesystem;
 
 
 class TrickController extends AbstractController
@@ -69,11 +70,65 @@ class TrickController extends AbstractController
 
     #[Route('/trick/{id}/save', name: 'save_edit_trick')]
     #[ParamConverter("trick", class:Tricks::class)]
-    public function saveEdit(Tricks $trick, Request $request, EditTrickType $editTrickType): Response
+    public function saveEdit(Tricks $trick, Request $request, TricksRepository $tricksRepository, AttachementsRepository $attachementsRepository): Response
     {
-        //$form = $this->createForm(EditTrickType::class, $trick);
-        dd($trick);
-        //$trick->setName()
+        $filesystem = new Filesystem();
+        $form = $this->createForm(EditTrickType::class, $trick);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $fileDir = $_SERVER['DOCUMENT_ROOT'] . 'images\tricks';
+
+            $picture = $form->get("picture")->getData();
+            $bg = $form->get("bg_img")->getData();
+            $trick->setName($form->get("name")->getData());
+            $trick->setText($form->get("text")->getData());
+            $trick->setDescription($form->get("description")->getData());
+            $trick->setCategory($form->get("category")->getData());
+            if($picture !== null)
+            {
+                $picture = $form->get("picture")->getData();
+                $pictureName = md5(uniqid()) . "." . $picture->guessExtension();
+                $picture->move($fileDir, $pictureName);
+                $filesystem->remove($fileDir . '\\' . $trick->getPicture());
+                $trick->setPicture($pictureName);
+            }
+
+            if($bg !== null)
+            {
+                $picture = $form->get("bg_img")->getData();
+                $pictureName = md5(uniqid()) . "." . $picture->guessExtension();
+                $picture->move($fileDir, $pictureName);
+                $filesystem->remove($fileDir . '\\' . $trick->getBgImg());
+                $trick->setBgImg($pictureName);
+            }
+
+            foreach($trick->getAttachements()->toArray() as $att)
+            {
+                if (!$form->get("check" . $att->getId())->getData())
+                {
+                    $attachementsRepository->remove($att);
+                    $filesystem->remove($fileDir . '\attachments\\' . $att->getPath());
+                }
+            }
+
+            if($form->get("images")->getData() !== null)
+            {
+                    foreach ($form->get("images")->getData() as $image)
+                    {
+                        $imageName = md5(uniqid()) . "." . $image->guessExtension();
+                        $image->move($fileDir . '\attachments', $imageName);
+                        $attachment = new Attachements();
+                        $attachment->setTrick($trick);
+                        $attachment->setPath($imageName);
+                        $attachment->setType("img");
+                        $trick->addAttachement($attachment);
+                    }
+            }
+
+            $tricksRepository->save($trick);
+            return $this->redirectToRoute('welcome');
+        }
     }
 
     #[Route('/tricks/make', name: 'app_store_tricks')]
@@ -105,6 +160,14 @@ class TrickController extends AbstractController
                 $attachment->setTrick($trick);
                 $attachment->setPath($imageName);
                 $attachment->setType("img");
+                $trick->addAttachement($attachment);
+            }
+            if($form->get("embed")->getData() !== null)
+            {
+                $attachment = new Attachements();
+                $attachment->setTrick($trick);
+                $attachment->setType("embed");
+                $attachment->setPath($form->get("embed")->getData());
                 $trick->addAttachement($attachment);
             }
             $tricksRepository->save($trick);

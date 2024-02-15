@@ -29,6 +29,8 @@
                     {{ form_widget(form.category) }}
                     <p>Texte :</p>
                     {{ form_widget(form.text) }}
+                    <p>Vidéo (iframe) :</p>
+                    {{ form_widget(form.embed) }}
                     <p>Image de fond :</p>
                     {{ form_row(form.bg_img) }}
                     <p>Image de présentation :</p>
@@ -80,12 +82,19 @@
                     <div class="attachements">
                         {% for attachement in trick.attachements.toArray()  %}
                             <div class="attach" id="attach{{ attachement.id }}">
-                                <input type="checkbox" class="checkbox" id="att{{ attachement.id }}" name="check{{ attachement.id }}" checked hidden>
+                                <!--input type="checkbox" class="checkbox" id="att{{ attachement.id }}" name="edit_trick[check{{ attachement.id }}]" checked hidden-->
+                                {{ form_widget(trickForm["check" ~ attachement.id]) }}
                                 <div id="ci{{ attachement.id }}" class="container-img">
                                     <div class="trash">
                                         <img src="{{ asset("images/main/trash.svg") }}" alt="" onclick="imageRemover('{{ attachement.id }}')">
                                     </div>
-                                    <img src="{{ asset("/images/tricks/attachments/"~attachement.path) }}" alt="">
+                                    {% if attachement.type == "img" %}
+                                        <img src="{{ asset("/images/tricks/attachments/"~attachement.path) }}" alt="">
+                                    {% endif %}
+
+                                    {% if attachement.type == "embed" %}
+                                        {{ attachement.getPath()|raw }}
+                                    {% endif %}
                                 </div>
                             </div>
                         {% endfor %}

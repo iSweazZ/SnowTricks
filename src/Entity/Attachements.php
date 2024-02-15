@@ -16,7 +16,7 @@ class Attachements
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 65535)]
     private ?string $path = null;
 
     #[ORM\ManyToOne(inversedBy: 'attachements')]

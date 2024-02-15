@@ -62,7 +62,7 @@ let cd = FilePond.create(
 function imageRemover(id)
 {
     document.getElementById("attach" + id).style.position = 'absolute';
-    document.getElementById("att" + id).checked = false;
+    document.getElementById("edit_trick_check" + id).checked = false;
     document.getElementById("ci" + id).remove();
 }
 
@@ -70,14 +70,14 @@ function bgRemover()
 {
     document.getElementById("edit_trick_edit_bg_img").checked = false;
     document.getElementById("cibg").remove();
-    const input = [...document.querySelectorAll(".filepond--browser")].filter(node => node.name === "edit_trick[bg_img]")[0]
-    input.innerHTML = input.innerHTML.substr(0,input.innerHTML.length - 1 ) + " enabled>"
+    //const input = [...document.querySelectorAll(".filepond--browser")].filter(node => node.name === "edit_trick[bg_img]")[0]
+    //input.innerHTML = input.innerHTML.substr(0,input.innerHTML.length - 1 ) + " enabled>"
 }
 
 function pictureRemover()
 {
     document.getElementById("edit_trick_edit_picture").checked = false;
     document.getElementById("cipr").remove();
-    const input = [...document.querySelectorAll(".filepond--browser")].filter(node => node.name === "edit_trick[picture]")[0]
-    input.setAttribute("required", true);
+    //const input = [...document.querySelectorAll(".filepond--browser")].filter(node => node.name === "edit_trick[picture]")[0]
+    //input.setAttribute("required", true);
 }

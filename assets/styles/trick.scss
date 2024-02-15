@@ -1,47 +1,128 @@
 .trick-show{
 
-  .w-50vw{
-    width: 50vw;
-    margin-right: auto !important;
-    margin-left: auto !important;
-  }
+  padding-bottom: 25px;
 
-  .d-flex-author{
+  #trick-displayed{
+    color: white;
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    width: 75vw;
+
+    margin-right: auto;
+    margin-left: auto;
+
+
     display: flex;
-    form{
-      margin-left: 50px;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: rgba(0,0,0,0.2);
+    backdrop-filter: blur(7px);
+    border-radius: 10px;
+    -webkit-backdrop-filter: blur(7px);
+
+    .commentary{
+      width: 75vw;
+      padding-left: 75px;
+
+      form{
+
+        margin-bottom: 15px;
+
+        textarea{
+          width: calc(75vw - 150px);
+          border-radius: 5px;
+          border: 1px solid rgba(0,0,0, 0.3);
+          background-color: transparent;
+          color: white;
+        }
+
+      }
+
+
     }
-    justify-content: center;
-    margin-top: 50px;
-  }
 
-  button{
-    border: 1px solid gray;
-    background-color: white;
-    border-radius: 5px;
-  }
+    .attachments{
+      display: grid;
+      margin-right: auto;
+      margin-left: auto;
+      grid-template-columns: min-content min-content min-content;
+      grid-gap: 10px;
+      grid-auto-rows: minmax(100px, auto);
+      width: min-content;
 
-  .must-connect{
-    margin-left: 10px;
-  }
+      img, iframe{
+        width: 250px;
+        border-radius: 5px;
+      }
 
-  .otherComments{
-    div{
-      border: 1px solid gray;
+      .embed-only{
+        iframe{
+          width: 750px;
+        }
+      }
+
+    }
+
+    .w-50vw{
+      width: 50vw;
+      margin-right: auto !important;
+      margin-left: auto !important;
+    }
+
+    .d-flex-author{
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+
+      form{
+        margin-left: 50px;
+      }
+
+      span{
+        font-weight: bold;
+        text-decoration: underline;
+      }
+    }
+
+    button{
+      border: 1px solid white;
+      background-color: transparent;
       border-radius: 5px;
-      margin: 5px 10px 5px 10px;
-      padding: 5px 10px 5px 10px;
+      color: white;
+
+      &#delete{
+        border-style: none;
+        background-color: rgba(255,0,0,0.4);
+      }
+
     }
 
-    div:nth-child(n)
-    {
-      cursor: default;
+    .must-connect{
+      margin-left: 10px;
     }
 
-    .commentAuthor{
-      font-weight: bold;
-      text-decoration: underline;
+    .otherComments{
+      div{
+        border-radius: 5px;
+        margin: 5px 10px 5px 10px;
+        padding: 5px 10px 5px 10px;
+        background-color: rgba(0,0,0, 0.4);
+      }
+
+      div:nth-child(n)
+      {
+        cursor: default;
+      }
+
+      .commentAuthor{
+        font-weight: bold;
+        text-decoration: underline;
+      }
     }
   }
+
 
 }

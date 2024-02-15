@@ -68,8 +68,9 @@
     grid-auto-rows: minmax(100px, auto);
     width: min-content;
 
-    img{
+    img, iframe{
       height: 250px;
+      width: 250px;
       border-radius: 5px;
     }
 

@@ -1,0 +1,67 @@
+.login-page{
+  form{
+
+    &#lost-pswd-form{
+      height: 30vh;
+    }
+
+    &#login-form{
+      height: 50vh;
+    }
+
+    background-color: rgba(0,0,0,0.6);
+    width: 30vw;
+    height: 50vh;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25vh !important;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 25px 30px;
+    border-radius: 10px;
+
+    #lost-pswd-btn{
+      margin-top: 15px;
+    }
+
+    #cancel-btn{
+      position: relative;
+      top: 10px;
+      background-color: white;
+      color: black;
+    }
+
+    a{
+      color: white;
+      position: relative;
+      top: -25px;
+      left: 10px;
+    }
+
+    h1{
+      text-align: center;
+    }
+
+    label{
+      width: 100%;
+      margin-top: 30px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .checkbox{
+      label{
+        width: inherit;
+        margin-left: 10px;
+      }
+    }
+
+    button{
+      background-color: white;
+      color: black;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+}

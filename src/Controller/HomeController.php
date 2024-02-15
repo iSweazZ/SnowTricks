@@ -18,9 +18,8 @@ class HomeController extends AbstractController
     ) {}
 
     #[Route(path: '/', name: 'welcome', methods: ['GET'])]
-    public function index(TricksRepository $tricksRepository, Mailer $mailer): Response
+    public function index(TricksRepository $tricksRepository): Response
     {
-        $mailer->test();
         $session = $this->requestStack;
         $tricks = $tricksRepository->findAll();
         return $this->render('home/index.html.twig', [

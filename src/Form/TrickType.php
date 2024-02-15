@@ -7,6 +7,7 @@ use App\Entity\Tricks;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -29,6 +30,10 @@ class TrickType extends AbstractType
             ])
             ->add('bg_img', FileType::class)
             ->add('text')
+            ->add('embed', TextareaType::class,[
+                "mapped" => false,
+                "required" => false
+            ])
             ->add('images', FileType::class, [
             'multiple' => true,
             'mapped' => false,

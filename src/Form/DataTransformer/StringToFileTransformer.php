@@ -13,8 +13,15 @@ class StringToFileTransformer implements DataTransformerInterface
      */
     public function transform(mixed $value)
     {
-        $fileDir = $_SERVER['DOCUMENT_ROOT'] . 'images/tricks/';
-        //dd($value);
+        if(is_file($value))
+        {
+            return $value;
+        }
+        if($value === null)
+        {
+            return null;
+        }
+        return new File($_SERVER['DOCUMENT_ROOT'] . 'images\tricks\\' . $value);
     }
 
     /**
@@ -22,6 +29,14 @@ class StringToFileTransformer implements DataTransformerInterface
      */
     public function reverseTransform(mixed $value)
     {
-        // TODO: Implement reverseTransform() method.
+        if(is_file($value))
+        {
+            return $value;
+        }
+        if($value === null)
+        {
+            return null;
+        }
+        return new File($_SERVER['DOCUMENT_ROOT'] . 'images\tricks\\' . $value);
     }
 }
