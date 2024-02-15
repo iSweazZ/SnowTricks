@@ -7,18 +7,15 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class StringToFileAttachmentsTransformer implements DataTransformerInterface
 {
-
     /**
      * @inheritDoc
      */
     public function transform(mixed $value)
     {
-        if(is_file($value))
-        {
+        if (is_file($value)) {
             return $value;
         }
-        if($value === null)
-        {
+        if ($value === null) {
             return null;
         }
         return new File($_SERVER['DOCUMENT_ROOT'] . 'images\tricks\attachments\\' . $value);
@@ -29,12 +26,10 @@ class StringToFileAttachmentsTransformer implements DataTransformerInterface
      */
     public function reverseTransform(mixed $value)
     {
-        if(count($value) === 0)
-        {
+        if (count($value) === 0) {
             return null;
         }
-        if(is_file($value))
-        {
+        if (is_file($value)) {
             return $value;
         }
         return new File($_SERVER['DOCUMENT_ROOT'] . 'images\tricks\attachments\\' . $value);

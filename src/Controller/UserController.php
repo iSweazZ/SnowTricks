@@ -23,12 +23,10 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class UserController extends AbstractController
 {
-
     #[Route('/user/{id}/tricks', name: 'user_trick')]
-    #[ParamConverter("user", class:User::class)]
+    #[ParamConverter("user", class: User::class)]
     public function show(User $user): Response
     {
-
     }
 
     #[Route('/user/manage', name: 'app_trick_manager')]
@@ -45,10 +43,9 @@ class UserController extends AbstractController
     {
         $form = $this->createForm(ChangePasswordType::class, null);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            if($form->get("NewPassword")->getData() === $form->get("Retype")->getData() && $userPasswordHasher->isPasswordValid($this->getUser(), $form->get("currentPassword")->getData()))
-            {
+            if ($form->get("NewPassword")->getData() === $form->get("Retype")->getData() && $userPasswordHasher->isPasswordValid($this->getUser(), $form->get("currentPassword")->getData())) {
                 $this->getUser()->setPassword($userPasswordHasher->hashPassword($this->getUser(), $form->get("NewPassword")->getData()));
 
                 $userRepository->save($this->getUser());
@@ -56,7 +53,6 @@ class UserController extends AbstractController
             }
 
             return $this->redirectToRoute('app_login');
-
         }
     }
 }

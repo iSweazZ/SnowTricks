@@ -13,12 +13,12 @@ class NewPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('password',PasswordType::class ,[
+            ->add('password', PasswordType::class, [
                 "attr" => [
                     "class" => "form-control",
                 ]
             ])
-            ->add('confirmPassword',PasswordType::class ,[
+            ->add('confirmPassword', PasswordType::class, [
                 "attr" => [
                     "class" => "form-control",
                 ]

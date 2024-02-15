@@ -13,7 +13,8 @@ use Symfony\Component\Routing\RouterInterface;
 class Mailer
 {
     public function __construct(private readonly MailerInterface $mailer, private readonly RouterInterface $router)
-    {}
+    {
+    }
 
     public function resetPassword(User $user, ResetPassword $resetPassword)
     {

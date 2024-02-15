@@ -98,7 +98,8 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "ecs": "vendor/bin/ecs check src --fix"
     },
     "conflict": {
         "symfony/symfony": "*"

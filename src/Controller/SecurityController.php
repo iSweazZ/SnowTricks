@@ -23,9 +23,9 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()) {
-             return $this->redirectToRoute('welcome');
-         }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('welcome');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -69,7 +69,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/reset_password/{code}/new', name: 'app_regenerate_password')]
-    #[ParamConverter("reset_password", class:ResetPassword::class)]
+    #[ParamConverter("reset_password", class: ResetPassword::class)]
     public function newPassword(ResetPassword $resetPassword): RedirectResponse | Response
     {
         $form = $this->createForm(NewPasswordType::class);
@@ -80,14 +80,13 @@ class SecurityController extends AbstractController
 
 
     #[Route(path: '/reset_password/{code}/set', name: 'app_set_new_password')]
-    #[ParamConverter("reset_password", class:ResetPassword::class)]
+    #[ParamConverter("reset_password", class: ResetPassword::class)]
     public function setPassword(ResetPassword $resetPassword, Request $request, ResetPasswordRepository $resetPasswordRepository, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher, Security $security): RedirectResponse | Response
     {
         $form = $this->createForm(NewPasswordType::class, null);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
-            if($form->get("password")->getData() === $form->get("confirmPassword")->getData())
-            {
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get("password")->getData() === $form->get("confirmPassword")->getData()) {
                 $user = $resetPassword->getUser();
                 $user->setPassword($userPasswordHasher->hashPassword($user, $form->get("password")->getData()));
                 $userRepository->save($user);
@@ -95,7 +94,6 @@ class SecurityController extends AbstractController
             }
 
             return $this->redirectToRoute('app_login');
-
         }
     }
 

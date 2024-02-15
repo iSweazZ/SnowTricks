@@ -19,7 +19,7 @@ class TrickType extends AbstractType
             ->add('name')
             ->add('picture', FileType::class)
             ->add('description')
-            ->add('category', ChoiceType::class,[
+            ->add('category', ChoiceType::class, [
                 "choices" => [
                     'Saut' => TrickCategory::jump,
                     'Glissade' => TrickCategory::slide,
@@ -30,14 +30,14 @@ class TrickType extends AbstractType
             ])
             ->add('bg_img', FileType::class)
             ->add('text')
-            ->add('embed', TextareaType::class,[
+            ->add('embed', TextareaType::class, [
                 "mapped" => false,
                 "required" => false
             ])
             ->add('images', FileType::class, [
             'multiple' => true,
             'mapped' => false,
-                'attr'     => [
+                'attr' => [
                     'accept' => 'image/jpg,image/jpeg,image/jpg',
                     'multiple' => 'multiple'
                 ]

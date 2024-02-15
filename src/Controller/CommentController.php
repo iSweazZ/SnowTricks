@@ -22,32 +22,31 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class CommentController extends AbstractController
 {
     #[IsGranted('ROLE_USER')]
-    #[Route('/trick/{id}/comment', name: 'app_comment',methods: ['POST'])]
-    public function store(#[MapEntity(id:'id')] Tricks $trick, Request $request, CommentsRepository $commentsRepository): RedirectResponse
+    #[Route('/trick/{id}/comment', name: 'app_comment', methods: ['POST'])]
+    public function store(#[MapEntity(id: 'id')] Tricks $trick, Request $request, CommentsRepository $commentsRepository): RedirectResponse
     {
         $comment = new Comments();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $comment->setAuthor($this->getUser());
             $comment->setDate(new DateTime());
             $comment->setTrick($trick);
             $commentsRepository->save($comment);
         }
-        return $this->redirectToRoute('app_trick', array(
+        return $this->redirectToRoute('app_trick', [
             'id' => $trick->getId(),
-        ));
+        ]);
     }
 
     #[Route('/comment/{id}/delete', name: 'app_comment_delete')]
-    public function delete(#[MapEntity(id:'id')] Comments $comment, Request $request, CommentsRepository $commentsRepository): RedirectResponse
+    public function delete(#[MapEntity(id: 'id')] Comments $comment, Request $request, CommentsRepository $commentsRepository): RedirectResponse
     {
-        if($comment->getAuthor()->getId() === $this->getUser()->getId())
-        {
+        if ($comment->getAuthor()->getId() === $this->getUser()->getId()) {
             $commentsRepository->remove($comment);
         }
-        return $this->redirectToRoute('app_trick', array(
+        return $this->redirectToRoute('app_trick', [
             'id' => $comment->getTrick()->getId(),
-        ));
+        ]);
     }
 }

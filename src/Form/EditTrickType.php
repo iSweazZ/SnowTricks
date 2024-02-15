@@ -18,12 +18,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EditTrickType extends AbstractType
 {
-
     public function __construct(
         private readonly StringToFileTransformer $fileTransformer,
         private readonly StringToFileAttachmentsTransformer $fileAttachmentTransformer,
-    )
-    {
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -40,7 +38,7 @@ class EditTrickType extends AbstractType
                 "required" => false
             ])
             ->add('description')
-            ->add('category', ChoiceType::class,[
+            ->add('category', ChoiceType::class, [
                 "choices" => [
                     'Saut' => TrickCategory::jump,
                     'Glissade' => TrickCategory::slide,
@@ -63,7 +61,7 @@ class EditTrickType extends AbstractType
             ->add('images', FileType::class, [
             'multiple' => true,
             'mapped' => false,
-                'attr'     => [
+                'attr' => [
                     'accept' => 'image/jpg,image/jpeg,image/jpg',
                     'multiple' => 'multiple'
                 ],
@@ -75,7 +73,7 @@ class EditTrickType extends AbstractType
             $form = $event->getForm();
 
             foreach ($trick->getAttachements()->toArray() as $att) {
-                $form->add("check".$att->getId(), CheckboxType::class, [
+                $form->add("check" . $att->getId(), CheckboxType::class, [
                     "mapped" => false,
                     "required" => false,
                     "data" => true,
@@ -98,14 +96,16 @@ class EditTrickType extends AbstractType
             );
 
             foreach ($keys as $att) {
-                $form->add($att, CheckboxType::class,
-                [
-                    "mapped" => false
-                ]);
+                $form->add(
+                    $att,
+                    CheckboxType::class,
+                    [
+                        "mapped" => false
+                    ]
+                );
             }
 
             $form->get("picture")->setData($trick["picture"]);
-
         });
 
         $builder->get("picture")->addModelTransformer($this->fileTransformer);
